@@ -265,4 +265,4 @@ __pycache__/
 *.pyc
 
 # settings
-appsettings.json
+#appsettings.json
