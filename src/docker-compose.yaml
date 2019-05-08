@@ -1,0 +1,47 @@
+﻿# Use postgres/example user/password credentials
+version: '3.1'
+services:
+  db:
+    image: postgres:11.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=smeCoreDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=39162604
+    ports:
+      - 5432:5432
+    networks:
+      - api-network
+
+  pedagogicoapi:
+    image: pedagogicoapi
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    command: dotnet SME.Pedagogico.WebAPI.dll
+    depends_on:
+      - db
+    volumes:
+      - .SME.Pedagogico.API/:/SME.Pedagogico.API/
+    networks:
+      - api-network
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 9090:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=seu@email
+      - PGADMIN_DEFAULT_PASSWORD=adminadmin
+    networks:
+      - api-network
+   
+networks:
+  api-network:
+    external:
+       name: apinetwork

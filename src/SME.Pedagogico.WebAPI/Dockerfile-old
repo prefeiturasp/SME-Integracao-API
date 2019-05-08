@@ -1,0 +1,24 @@
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM microsoft/dotnet:2.1-sdk AS build
+WORKDIR /src
+COPY ["src/SME.Pedagogico.WebAPI/SME.Pedagogico.WebAPI.csproj", "src/SME.Pedagogico.WebAPI/"]
+COPY ["src/SME.Pedagogico.Interface/SME.Pedagogico.Interface.csproj", "src/SME.Pedagogico.Interface/"]
+COPY ["src/SME.Pedagogico.IoC/SME.Pedagogico.IoC.csproj", "src/SME.Pedagogico.IoC/"]
+COPY ["src/SME.Pedagogico.Service/SME.Pedagogico.Service.csproj", "src/SME.Pedagogico.Service/"]
+COPY ["src/SME.Pedagogico.Repository/SME.Pedagogico.Repository.csproj", "src/SME.Pedagogico.Repository/"]
+RUN dotnet restore "src/SME.Pedagogico.WebAPI/SME.Pedagogico.WebAPI.csproj"
+COPY . .
+WORKDIR "/src/src/SME.Pedagogico.WebAPI"
+RUN dotnet build "SME.Pedagogico.WebAPI.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "SME.Pedagogico.WebAPI.csproj" -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "SME.Pedagogico.WebAPI.dll"]

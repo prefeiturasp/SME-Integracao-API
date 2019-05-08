@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Shouldly" Version="3.0.2" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SME.Pedagogico.Repository\SME.Pedagogico.Repository.csproj" />
+    <ProjectReference Include="..\..\src\SME.Pedagogico.Service\SME.Pedagogico.Service.csproj" />
+    <ProjectReference Include="..\..\src\SME.Pedagogico.WebAPI\SME.Pedagogico.WebAPI.csproj" />
+    <ProjectReference Include="..\SME.Pedagogico.BuildTest\SME.Pedagogico.BuildTest.csproj" />
+  </ItemGroup>
+
+</Project>
